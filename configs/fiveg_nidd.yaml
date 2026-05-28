@@ -1,0 +1,48 @@
+experiment_name: "fiveg_nidd_v1"
+
+dataset:
+  name: "fiveg_nidd"
+  csv_path: "data/raw/fiveg_nidd/Encoded.csv"
+  target_mode: "binary_udpflood"
+  test_size: 0.2
+  random_state: 42
+
+federated:
+  num_clients: 10
+  num_rounds: 3
+  fraction_fit: 1.0
+  fraction_evaluate: 1.0
+  local_epochs: 1
+
+training:
+  batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0
+
+model:
+  name: "mlp"
+  hidden_dims: [89, 30]
+  dropout: 0.0
+  num_classes: 2
+
+runtime:
+  seed: 42
+  device: "cpu"
+
+attack:
+  enabled: true
+  type: "label_flip"
+  malicious_client_ids: [0, 1]
+  source_label: 1
+  target_label: 0
+  flip_probability: 0.6
+
+artifacts:
+  run_dir: "runs"
+
+trustee:
+  enabled: true
+  round_to_analyze: 3
+  num_iter: 20
+  num_stability_iter: 5
+  samples_size: 0.3

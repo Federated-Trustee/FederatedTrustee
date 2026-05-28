@@ -1,0 +1,69 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.*
+
+# Raw and processed datasets
+data/raw/**
+data/processed/**
+
+# Keep data directory structure and documentation
+!data/README.md
+!data/raw/
+!data/raw/.gitkeep
+!data/raw/nsl_kdd/
+!data/raw/nsl_kdd/.gitkeep
+!data/raw/fiveg_nidd/
+!data/raw/fiveg_nidd/.gitkeep
+!data/processed/
+!data/processed/.gitkeep
+
+# Experiment outputs
+runs/
+checkpoints/
+outputs/
+figures_raw/
+
+# Model checkpoints and serialized objects
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.joblib
+
+# Logs
+*.log
+nohup.out
+
+# Temporary / rerun scripts
+rerun_*.py
+run_p08_*.py
+p08_*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local result CSVs generated during analysis
+client_round_agreements*.csv
+
+# Development-only sanity scripts
+scripts/dev/
