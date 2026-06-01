@@ -67,3 +67,6 @@ client_round_agreements*.csv
 
 # Development-only sanity scripts
 scripts/dev/
+
+# Temporary local experiment configs
+tmp/

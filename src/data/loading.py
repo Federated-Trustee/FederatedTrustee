@@ -15,6 +15,23 @@ class LoadedDataset:
     run_prefix: str
 
 
+def get_run_prefix_from_config(config: dict) -> str:
+    """
+    Build the run directory prefix from the experiment name.
+
+    Example:
+        experiment_name: paper_exp1_fiveg_nidd_p060_m2_seed021
+        run_prefix:      paper_exp1_fiveg_nidd_p060_m2_seed021_
+    """
+    experiment_name = str(config.get("experiment_name", "")).strip()
+
+    if not experiment_name:
+        dataset_name = str(config["dataset"]["name"]).strip()
+        experiment_name = f"{dataset_name}_v1"
+
+    return f"{experiment_name}_"
+
+
 def load_dataset_from_config(config: dict) -> LoadedDataset:
     """
     Load the dataset specified by a configuration dictionary.
@@ -25,6 +42,7 @@ def load_dataset_from_config(config: dict) -> LoadedDataset:
     """
     dataset_cfg = config["dataset"]
     dataset_name = dataset_cfg["name"]
+    run_prefix = get_run_prefix_from_config(config)
 
     if dataset_name == "nsl_kdd":
         data = load_nsl_kdd_binary_dos(
@@ -34,7 +52,7 @@ def load_dataset_from_config(config: dict) -> LoadedDataset:
 
         return LoadedDataset(
             data=data,
-            run_prefix="nsl_kdd_v1_",
+            run_prefix=run_prefix,
         )
 
     if dataset_name == "fiveg_nidd":
@@ -46,7 +64,7 @@ def load_dataset_from_config(config: dict) -> LoadedDataset:
 
         return LoadedDataset(
             data=data,
-            run_prefix="fiveg_nidd_v1_",
+            run_prefix=run_prefix,
         )
 
     raise ValueError(f"Unsupported dataset: {dataset_name}")
