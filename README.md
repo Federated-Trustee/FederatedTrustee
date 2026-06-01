@@ -320,6 +320,179 @@ Typical structure:
     ├── trustee/
     └── figures/
 
+## Paper experiment runners
+
+This repository also includes helper scripts under `scripts/paper/` to support reproducible execution of the experiments described in the paper.
+
+These scripts do not change the core FederatedTrustee implementation. They only generate temporary experiment configurations and call the existing pipeline.
+
+### Smoke test
+
+Before running large experiment grids, run a small end-to-end smoke test:
+
+    python scripts/paper/run_smoke_experiment.py
+
+By default, this script runs a lightweight 5G-NIDD experiment with:
+
+    dataset = fiveg_nidd
+    num_clients = 2
+    num_rounds = 1
+    malicious_client_ids = [0]
+    flip_probability = 1.0
+    round_mode = all-rounds
+    TRUSTEE num_iter = 2
+
+The goal is only to verify that the full pipeline is working:
+
+    federated training
+    checkpoint saving
+    local-model agreement
+    TRUSTEE extraction
+    TRUSTEE-tree agreement
+
+The generated temporary config is saved under:
+
+    tmp/paper_configs/
+
+The `tmp/` directory is ignored by Git.
+
+### Paper experiment grid
+
+To run the experimental grids used in the paper, use:
+
+    python scripts/paper/run_paper_experiments.py \
+      --group exp1 \
+      --round-mode all-rounds
+
+The runner creates temporary YAML configs under:
+
+    tmp/paper_configs/
+
+and then calls:
+
+    bash run_pipeline.sh <temporary_config> <round_mode>
+
+Each generated config receives a descriptive `experiment_name`, which makes the output run directory easier to identify.
+
+Example run directory:
+
+    runs/paper_exp1_fiveg_nidd_p100_m2_seed001_<timestamp>/
+
+### Available groups
+
+The runner supports the following experiment groups:
+
+    exp1
+    exp2
+    round-analysis
+    all
+
+#### Experiment 1: flip-probability variation
+
+    --group exp1
+
+Configuration grid:
+
+    datasets = nsl_kdd, fiveg_nidd
+    num_clients = 10
+    malicious_client_ids = [0, 1]
+    flip_probability = 1.0, 0.8, 0.6, 0.4
+    seeds = 1, 7, 21, 42, 84
+
+Example:
+
+    python scripts/paper/run_paper_experiments.py \
+      --group exp1 \
+      --round-mode all-rounds
+
+#### Experiment 2: number of malicious clients
+
+    --group exp2
+
+Configuration grid:
+
+    datasets = nsl_kdd, fiveg_nidd
+    num_clients = 10
+    malicious_client_ids = [0] or [0, 1, 2, 3]
+    flip_probability = 1.0, 0.8, 0.6
+    seeds = 1, 21, 84
+
+
+Example:
+
+    python scripts/paper/run_paper_experiments.py \
+      --group exp2 \
+      --round-mode all-rounds
+
+#### Experiment 3: round analysis
+
+    --group round-analysis
+
+Configuration grid:
+
+    datasets = nsl_kdd, fiveg_nidd
+    num_clients = 10
+    malicious_client_ids = [0, 1]
+    flip_probability = 1.0, 0.6
+    seeds = 1, 7, 21, 42, 84
+
+This experiment is a subset of Experiment 1. Therefore, if Experiment 1 was already executed with:
+
+    --round-mode all-rounds
+
+then separate training for the round-analysis group is not required. The same checkpoints from rounds 1, 2, and 3 can be reused.
+
+The `round-analysis` group is useful when only this subset needs to be reproduced.
+
+Example:
+
+    python scripts/paper/run_paper_experiments.py \
+      --group round-analysis \
+      --round-mode all-rounds
+
+### Useful options
+
+Run only one dataset:
+
+    python scripts/paper/run_paper_experiments.py \
+      --group exp1 \
+      --dataset fiveg_nidd \
+      --round-mode all-rounds
+
+Preview the experiment plan without executing anything:
+
+    python scripts/paper/run_paper_experiments.py \
+      --group exp1 \
+      --dataset fiveg_nidd \
+      --limit 2 \
+      --dry-run
+
+Run only the first experiment in a group:
+
+    python scripts/paper/run_paper_experiments.py \
+      --group exp1 \
+      --dataset fiveg_nidd \
+      --limit 1 \
+      --round-mode all-rounds
+
+Run all main grids:
+
+    python scripts/paper/run_paper_experiments.py \
+      --group all \
+      --round-mode all-rounds
+
+### Notes
+
+The paper experiment runner trains each configuration only once.
+
+When `--round-mode all-rounds` is used, the pipeline trains normally up to the configured final round and then analyzes all saved rounds. For a 3-round configuration, the same training run produces outputs for:
+
+    round_001
+    round_002
+    round_003
+
+This avoids duplicated training for the round-analysis experiment when the corresponding Experiment 1 runs already exist.
+
 ## Notes on paper reproduction
 
 This repository contains the core implementation and scripts required to run the FederatedTrustee workflow.
