@@ -51,6 +51,11 @@ Main scripts:
     scripts/export_shap_comparison.py       # Generate SHAP local explanation figures
     scripts/build_client_round_csv.py       # Consolidate agreement results across runs
 
+Paper/reproducibility runners:
+
+    scripts/paper/run_smoke_experiment.py   # Small end-to-end pipeline smoke test
+    scripts/paper/run_paper_experiments.py  # Paper experiment grid runner
+
 ## Installation
 
 This project was developed with Python 3.10.
@@ -358,7 +363,7 @@ The `tmp/` directory is ignored by Git.
 
 ### Paper experiment grid
 
-To run the experimental grids used in the paper, use:
+To run the experimental grids described in the paper, use:
 
     python scripts/paper/run_paper_experiments.py \
       --group exp1 \
@@ -495,9 +500,11 @@ This avoids duplicated training for the round-analysis experiment when the corre
 
 ## Notes on paper reproduction
 
-This repository contains the core implementation and scripts required to run the FederatedTrustee workflow.
+## Notes on paper reproduction
 
-Some aggregate paper-level analyses, such as AUROC, Precision@k, separation margins, confidence intervals, and final plotting scripts, may require additional post-processing depending on the selected runs, seeds, and experimental scenarios. These scripts can be added under `scripts/` or `scripts/paper/` as the final experimental protocol is consolidated.
+This repository contains the core implementation and scripts required to run the FederatedTrustee workflow and generate the main per-run outputs.
+
+The paper experiment runner can reproduce the training and agreement-analysis grids. Aggregate paper-level analyses, such as AUROC, Precision@k, separation margins, confidence intervals, and final plotting scripts, require additional post-processing over the generated CSV files. These post-processing scripts can be added under `scripts/paper/` as the final experimental protocol is consolidated.
 
 ## Citation
 
