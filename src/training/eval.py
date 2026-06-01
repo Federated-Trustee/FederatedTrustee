@@ -19,8 +19,8 @@ def make_eval_dataloader(
     if len(X) != len(y):
         raise ValueError("X and y must have the same number of samples.")
 
-    X_tensor = torch.as_tensor(X, dtype=torch.float32)
-    y_tensor = torch.as_tensor(y, dtype=torch.long)
+    X_tensor = torch.as_tensor(np.asarray(X).copy(), dtype=torch.float32)
+    y_tensor = torch.as_tensor(np.asarray(y).copy(), dtype=torch.long)
 
     dataset = TensorDataset(X_tensor, y_tensor)
 

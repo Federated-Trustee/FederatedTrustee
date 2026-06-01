@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Keep Flower/Ray outputs readable by suppressing noisy dependency warnings.
+export PYTHONWARNINGS="ignore::DeprecationWarning,ignore:The given NumPy array is not writable:UserWarning"
+
+
 CONFIG_PATH="${1:-configs/nsl_kdd.yaml}"
 ROUND_MODE="${2:-final}"
 
