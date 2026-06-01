@@ -73,11 +73,23 @@ Install dependencies:
 
 Raw datasets are not included in this repository.
 
-Place the datasets in the following paths:
+Download the datasets from their original sources and place them in the following paths:
 
     data/raw/nsl_kdd/KDDTrain+.txt
     data/raw/nsl_kdd/KDDTest+.txt
     data/raw/fiveg_nidd/Encoded.csv
+
+NSL-KDD files:
+
+    KDDTrain+.txt
+    https://raw.githubusercontent.com/defcom17/NSL_KDD/master/KDDTrain%2B.txt
+
+    KDDTest+.txt
+    https://raw.githubusercontent.com/defcom17/NSL_KDD/master/KDDTest%2B.txt
+
+5G-NIDD official DOI:
+
+    https://dx.doi.org/10.21227/xtep-hv36
 
 The expected data layout is documented in:
 

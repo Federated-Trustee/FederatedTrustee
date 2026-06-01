@@ -19,7 +19,15 @@ Raw datasets are **not included** in this repository. Users must download them f
 
 ## NSL-KDD
 
-The NSL-KDD experiments expect the following files:
+Download the original NSL-KDD files from:
+
+    KDDTrain+.txt
+    https://raw.githubusercontent.com/defcom17/NSL_KDD/master/KDDTrain%2B.txt
+
+    KDDTest+.txt
+    https://raw.githubusercontent.com/defcom17/NSL_KDD/master/KDDTest%2B.txt
+
+Place them in:
 
     data/raw/nsl_kdd/KDDTrain+.txt
     data/raw/nsl_kdd/KDDTest+.txt
@@ -28,7 +36,15 @@ The current implementation uses the binary normal-vs-DoS task. Samples labeled a
 
 ## 5G-NIDD
 
-The 5G-NIDD experiments expect the following file:
+Download the dataset from the official DOI:
+
+    https://dx.doi.org/10.21227/xtep-hv36
+
+The project uses the file:
+
+    Encoded.csv
+
+Place it in:
 
     data/raw/fiveg_nidd/Encoded.csv
 
